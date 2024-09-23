@@ -1,12 +1,27 @@
 // Функция для отображения новостей
-function displayNews() {
+function displayNews(filter = '') {
     const newsList = document.getElementById('news-list');
     newsList.innerHTML = ''; // Очищаем список новостей
 
     const news = JSON.parse(localStorage.getItem('news')) || [];
-    const currentUser = loadSession(); // Получаем текущего пользователя для проверки
 
-    news.forEach((newsItem, index) => {
+    // Получаем текущего пользователя для проверки
+    const currentUser = loadSession();
+
+    // Преобразуем фильтр в нижний регистр для корректного сравнения
+    const lowerCaseFilter = filter.toLowerCase();
+
+
+    // Фильтруем новости по заголовку или содержимому
+    const filteredNews = news.filter(newsItem =>
+
+        // Берем название / содержание новости и смотрим содержится ли в ней строка lowerCaseFilter.
+        newsItem.title.toLowerCase().includes(lowerCaseFilter) ||
+        newsItem.content.toLowerCase().includes(lowerCaseFilter)
+    );
+
+    // Проходим по отфильтрованным новостям и отображаем их
+    filteredNews.forEach((newsItem, index) => {
         const newsElement = document.createElement('div');
         newsElement.classList.add('news-item');
         

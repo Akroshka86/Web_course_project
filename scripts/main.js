@@ -19,6 +19,17 @@ window.onload = () => {
             window.location.href = 'create-news.html';
         });
     }
+
+
+
+    // Добавляем обработчик для поля поиска
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value;
+            displayNews(searchTerm); // Отображаем новости с учетом фильтра
+        });
+    }
 };
 
 
