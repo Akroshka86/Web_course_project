@@ -33,7 +33,7 @@ function displayNews(filter = '') {
         `;
 
         // Если текущий пользователь автор, показываем кнопки редактирования и удаления
-        if (currentUser && currentUser.username === newsItem.username) {
+        if (currentUser && (currentUser.username === newsItem.username || currentUser.role === 'admin')) {
             const editButton = document.createElement('button');
             editButton.textContent = 'Редактировать';
             editButton.addEventListener('click', () => editNews(index));

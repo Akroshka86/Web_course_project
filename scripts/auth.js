@@ -43,9 +43,13 @@ function register(username, password) {
         alert('Пользователь с таким именем уже существует!');
         return false;
     }
-    
+
+    // Определяем роль пользователя: администратор или обычный пользователь
+    const role = (username === 'admin') ? 'admin' : 'user';
+
     // Добавляем элемент в конец массива
-    users.push({ username, password });
+    users.push({ username, password, role });
+
     saveUsers(users);
     return true;
 }
