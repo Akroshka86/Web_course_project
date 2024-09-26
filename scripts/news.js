@@ -1,7 +1,9 @@
 // Функция для отображения новостей
 function displayNews(filter = '') {
     const newsList = document.getElementById('news-list');
-    newsList.innerHTML = ''; // Очищаем список новостей
+
+    // Очищаем список новостей
+    newsList.innerHTML = ''; 
 
     const news = JSON.parse(localStorage.getItem('news')) || [];
 
@@ -22,6 +24,11 @@ function displayNews(filter = '') {
 
     // Проходим по отфильтрованным новостям и отображаем их
     filteredNews.forEach((newsItem, index) => {
+
+        if (newsItem.hidden && (!currentUser || currentUser.role !== 'admin')) {
+            return;
+        }
+
         const newsElement = document.createElement('div');
         newsElement.classList.add('news-item');
         
@@ -30,6 +37,7 @@ function displayNews(filter = '') {
             <h3>${newsItem.title}</h3>
             <p>${newsItem.content}</p>
             <small>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
+            ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
         `;
 
         // Если текущий пользователь автор, показываем кнопки редактирования и удаления
@@ -44,8 +52,23 @@ function displayNews(filter = '') {
 
             newsElement.appendChild(editButton);
             newsElement.appendChild(deleteButton);
-        }
 
+            // Если пользователь администратор, добавляем кнопку "Скрыть" или "Восстановить"
+            if (currentUser.role === 'admin') {
+                const hideButton = document.createElement('button');
+                hideButton.textContent = newsItem.hidden ? 'Восстановить' : 'Скрыть';
+                hideButton.addEventListener('click', () => {
+                    if (newsItem.hidden) {
+                        restoreNews(index); // Восстанавливаем новость
+                    } else {
+                        hideNews(index); // Скрываем новость
+                    }
+                });
+
+                newsElement.appendChild(hideButton);
+            }
+        }
+        
         newsList.appendChild(newsElement);
     });
 }
@@ -70,6 +93,20 @@ function editNews(index) {
 function deleteNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news.splice(index, 1); // Удаляем новость по индексу
+    localStorage.setItem('news', JSON.stringify(news));
+    displayNews(); // Обновляем отображение новостей
+}
+
+function hideNews(index) {
+    const news = JSON.parse(localStorage.getItem('news')) || [];
+    news[index].hidden = true; // Устанавливаем атрибут hidden в true
+    localStorage.setItem('news', JSON.stringify(news));
+    displayNews(); // Обновляем отображение новостей
+}
+
+function restoreNews(index) {
+    const news = JSON.parse(localStorage.getItem('news')) || [];
+    news[index].hidden = false; // Устанавливаем атрибут hidden в false
     localStorage.setItem('news', JSON.stringify(news));
     displayNews(); // Обновляем отображение новостей
 }
