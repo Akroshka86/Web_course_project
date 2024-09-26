@@ -20,6 +20,14 @@ window.onload = () => {
         });
     }
 
+    // Обработчик для кнопки "Мои сообщения"
+    const myNewsButton = document.getElementById('my-news-button');
+    if (myNewsButton) {
+        myNewsButton.addEventListener('click', () => {
+            displayUserNews(); // Показываем только новости текущего пользователя
+        });
+    }
+
 
 
     // Добавляем обработчик для поля поиска
@@ -39,11 +47,13 @@ function updateUI() {
         document.getElementById('logout-button').classList.remove('hidden');
         // Показываем кнопку создания новости
         document.getElementById('create-news-section').classList.remove('hidden');
+        document.getElementById('my-news-section').classList.remove('hidden'); // Показываем кнопку "Мои сообщения"
     } else {
         document.getElementById('login-button').classList.remove('hidden');
         document.getElementById('logout-button').classList.add('hidden');
         // Скрываем кнопку создания новости
         document.getElementById('create-news-section').classList.add('hidden');
+        document.getElementById('my-news-section').classList.add('hidden'); // Скрываем кнопку "Мои сообщения"
     }
     displayNews(); // Отображаем новости независимо от состояния авторизации
 }

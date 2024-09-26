@@ -68,7 +68,7 @@ function displayNews(filter = '') {
                 newsElement.appendChild(hideButton);
             }
         }
-        
+
         newsList.appendChild(newsElement);
     });
 }
@@ -109,4 +109,52 @@ function restoreNews(index) {
     news[index].hidden = false; // Устанавливаем атрибут hidden в false
     localStorage.setItem('news', JSON.stringify(news));
     displayNews(); // Обновляем отображение новостей
+}
+
+
+// Функция для отображения новостей текущего пользователя
+function displayUserNews() {
+    const newsList = document.getElementById('news-list');
+    newsList.innerHTML = ''; // Очищаем список
+
+    const news = JSON.parse(localStorage.getItem('news')) || [];
+    const currentUser = loadSession();
+
+    if (!currentUser) {
+        alert('Вы должны войти, чтобы видеть свои сообщения.');
+        return;
+    }
+
+    // Фильтруем новости, которые были созданы текущим пользователем
+    const userNews = news.filter(newsItem => newsItem.username === currentUser.username);
+
+    if (userNews.length === 0) {
+        newsList.innerHTML = '<p>У вас нет сообщений.</p>';
+        return;
+    }
+
+    userNews.forEach((newsItem, index) => {
+        const newsElement = document.createElement('div');
+        newsElement.classList.add('news-item');
+        
+        newsElement.innerHTML = `
+            <h3>${newsItem.title}</h3>
+            <p>${newsItem.content}</p>
+            <small>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
+            ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
+        `;
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Редактировать';
+        editButton.addEventListener('click', () => editNews(index));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Удалить';
+        deleteButton.addEventListener('click', () => deleteNews(index));
+
+        newsElement.appendChild(editButton);
+        newsElement.appendChild(deleteButton);
+
+        newsList.appendChild(newsElement);
+    });
 }
