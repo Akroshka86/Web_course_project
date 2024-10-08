@@ -30,7 +30,6 @@ window.onload = () => {
     }
 
 
-
     // Добавляем обработчик для поля поиска
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
@@ -39,16 +38,28 @@ window.onload = () => {
             displayNews(searchTerm); // Отображаем новости с учетом фильтра
         });
     }
+
+    // Обработчик для кнопки "Администратор"
+    const adminButton = document.getElementById('admin-button');
+    if (adminButton) {
+        adminButton.addEventListener('click', () => {
+            window.location.href = `admin-page.html`;
+        });
+    }
 };
 
 
 function updateUI() {
+    const currentUser = loadSession();
     if (isAuthenticated()) {
         document.getElementById('login-button').classList.add('hidden');
         document.getElementById('logout-button').classList.remove('hidden');
         // Показываем кнопку создания новости
         document.getElementById('create-news-section').classList.remove('hidden');
         document.getElementById('my-news-section').classList.remove('hidden'); // Показываем кнопку "Мои сообщения"
+        if (currentUser && currentUser.role === 'admin'){
+            document.getElementById('admin-section').classList.remove('hidden');
+        }
     } else {
         document.getElementById('login-button').classList.remove('hidden');
         document.getElementById('logout-button').classList.add('hidden');

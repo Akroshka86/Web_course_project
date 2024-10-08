@@ -53,10 +53,6 @@ function displayNews(filter = '', page = 1) {
     // Проходим по отфильтрованным новостям и отображаем их
     paginatedNews.forEach((newsItem, index) => {
 
-        if (newsItem.hidden && (!currentUser || currentUser.role !== 'admin')) {
-            return;
-        }
-
         const newsElement = document.createElement('div');
         newsElement.classList.add('news-item');
         

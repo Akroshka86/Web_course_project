@@ -1,3 +1,6 @@
+// Вызываем проверку при загрузке страницы администратора
+checkAdminAccess();
+
 // Переменная для текущей страницы
 let currentPage = 1;
 
@@ -62,7 +65,36 @@ function displayNews(filter = '', page = 1) {
             <small>Отправлено: ${newsItem.createdAt}</small>
             ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
         `;
-               
+
+        // Если текущий пользователь автор, показываем кнопки редактирования и удаления
+        if (currentUser && (currentUser.username === newsItem.username || currentUser.role === 'admin')) {
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Редактировать';
+            editButton.addEventListener('click', () => editNews(index));
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Удалить';
+            deleteButton.addEventListener('click', () => deleteNews(index));
+
+            newsElement.appendChild(editButton);
+            newsElement.appendChild(deleteButton);
+
+            // Если пользователь администратор, добавляем кнопку "Скрыть" или "Восстановить"
+            if (currentUser.role === 'admin') {
+                const hideButton = document.createElement('button');
+                hideButton.textContent = newsItem.hidden ? 'Восстановить' : 'Скрыть';
+                hideButton.addEventListener('click', () => {
+                    if (newsItem.hidden) {
+                        restoreNews(index); // Восстанавливаем новость
+                    } else {
+                        hideNews(index); // Скрываем новость
+                    }
+                });
+
+                newsElement.appendChild(hideButton);
+            }
+        }
+
         newsList.appendChild(newsElement);
     });
 
@@ -135,4 +167,15 @@ function restoreNews(index) {
     news[index].hidden = false; // Устанавливаем атрибут hidden в false
     localStorage.setItem('news', JSON.stringify(news));
     displayNews(); // Обновляем отображение новостей
+}
+
+// Проверка доступа к странице администратора
+function checkAdminAccess() {
+    const currentUser = loadSession();
+
+    // Если пользователь не залогинен или его роль не "admin", перенаправляем на главную страницу
+    if (!currentUser || currentUser.role !== 'admin') {
+        alert('У вас нет доступа к этой странице.');
+        window.location.href = 'index.html'; // Перенаправляем на главную страницу
+    }
 }
