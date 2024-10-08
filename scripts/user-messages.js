@@ -22,14 +22,20 @@ function displayNews(filter = '', page = 1) {
     // Преобразуем фильтр в нижний регистр для корректного сравнения
     const lowerCaseFilter = filter.toLowerCase();
 
+    const userNews = news.filter(newsItem => newsItem.username === currentUser.username);
+
+    if (userNews.length === 0) {
+        newsList.innerHTML = '<p>У вас нет сообщений.</p>';
+        return;
+    }
 
     // Если длина фильтра меньше 3 символов, показываем все новости без фильтрации
     let filteredNews;
     if (lowerCaseFilter.length < 3) {
-        filteredNews = news;
+        filteredNews = userNews;
     } else {
         // Фильтруем новости по заголовку или содержимому
-        filteredNews = news.filter(newsItem =>
+        filteredNews = userNews.filter(newsItem =>
 
             // Берем название / содержание новости и смотрим содержится ли в ней строка lowerCaseFilter.
             newsItem.title.toLowerCase().includes(lowerCaseFilter) ||

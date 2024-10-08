@@ -22,9 +22,10 @@ window.onload = () => {
 
     // Обработчик для кнопки "Мои сообщения"
     const myNewsButton = document.getElementById('my-news-button');
+    const currentUser = loadSession();
     if (myNewsButton) {
         myNewsButton.addEventListener('click', () => {
-            displayUserNews(); // Показываем только новости текущего пользователя
+            window.location.href = `user-messages.html`;
         });
     }
 

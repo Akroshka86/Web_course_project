@@ -60,6 +60,6 @@ function setupAuthModal() {
     logoutButton.addEventListener('click', () => {
         clearSession();
         alert('Вы вышли из системы.');
-        updateUI(); // Обновляем интерфейс после выхода
+        window.location.href = 'index.html';  // Перенаправляем на главную страницу
     });
 }
