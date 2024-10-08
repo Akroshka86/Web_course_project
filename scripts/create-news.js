@@ -16,7 +16,7 @@ document.getElementById('news-form').addEventListener('submit', (e) => {
         const news = JSON.parse(localStorage.getItem('news')) || [];
         
         // Добавляем новость в начало массива
-        news.unshift({ title, content, username: currentUser.username, hidden: false });
+        news.unshift({ title, content, username: currentUser.username, hidden: false, createdAt: new Date().toLocaleString()});
         
         localStorage.setItem('news', JSON.stringify(news));
 

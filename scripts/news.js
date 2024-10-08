@@ -23,20 +23,26 @@ function displayNews(filter = '', page = 1) {
     const lowerCaseFilter = filter.toLowerCase();
 
 
-    // Фильтруем новости по заголовку или содержимому
-    const filteredNews = news.filter(newsItem =>
+    // Если длина фильтра меньше 3 символов, показываем все новости без фильтрации
+    let filteredNews;
+    if (lowerCaseFilter.length < 3) {
+        filteredNews = news;
+    } else {
+        // Фильтруем новости по заголовку или содержимому
+        filteredNews = news.filter(newsItem =>
 
-        // Берем название / содержание новости и смотрим содержится ли в ней строка lowerCaseFilter.
-        newsItem.title.toLowerCase().includes(lowerCaseFilter) ||
-        newsItem.content.toLowerCase().includes(lowerCaseFilter)
-    );
+            // Берем название / содержание новости и смотрим содержится ли в ней строка lowerCaseFilter.
+            newsItem.title.toLowerCase().includes(lowerCaseFilter) ||
+            newsItem.content.toLowerCase().includes(lowerCaseFilter)
+        );
+    }  
 
-     // Рассчитываем индекс начала и конца новостей для текущей страницы
-     const startIndex = (page - 1) * newsPerPage;
-     const endIndex = page * newsPerPage;
+    // Рассчитываем индекс начала и конца новостей для текущей страницы
+    const startIndex = (page - 1) * newsPerPage;
+    const endIndex = page * newsPerPage;
 
-     // slice - вырезает часть массива и возвращает её 
-     const paginatedNews = filteredNews.slice(startIndex, endIndex);
+    // slice - вырезает часть массива и возвращает её 
+    const paginatedNews = filteredNews.slice(startIndex, endIndex);
 
     // Проходим по отфильтрованным новостям и отображаем их
     paginatedNews.forEach((newsItem, index) => {
@@ -53,6 +59,7 @@ function displayNews(filter = '', page = 1) {
             <h3>${newsItem.title}</h3>
             <p>${newsItem.content}</p>
             <small>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
+            <small>Отправлено: ${newsItem.createdAt}</small>
             ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
         `;
 
