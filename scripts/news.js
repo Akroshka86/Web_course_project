@@ -1,5 +1,14 @@
+// Переменная для текущей страницы
+let currentPage = 1;
+
+// Максимальное количество новостей на странице
+const newsPerPage = 10; 
+
 // Функция для отображения новостей
-function displayNews(filter = '') {
+function displayNews(filter = '', page = 1) {
+
+    // Устанавливаем текущую страницу
+    currentPage = page; 
     const newsList = document.getElementById('news-list');
 
     // Очищаем список новостей
@@ -22,8 +31,15 @@ function displayNews(filter = '') {
         newsItem.content.toLowerCase().includes(lowerCaseFilter)
     );
 
+     // Рассчитываем индекс начала и конца новостей для текущей страницы
+     const startIndex = (page - 1) * newsPerPage;
+     const endIndex = page * newsPerPage;
+
+     // slice - вырезает часть массива и возвращает её 
+     const paginatedNews = filteredNews.slice(startIndex, endIndex);
+
     // Проходим по отфильтрованным новостям и отображаем их
-    filteredNews.forEach((newsItem, index) => {
+    paginatedNews.forEach((newsItem, index) => {
 
         if (newsItem.hidden && (!currentUser || currentUser.role !== 'admin')) {
             return;
@@ -71,6 +87,38 @@ function displayNews(filter = '') {
 
         newsList.appendChild(newsElement);
     });
+
+    // Отображаем кнопки пагинации
+    displayPagination(filteredNews.length);
+}
+
+// Функция для отображения кнопок пагинации
+function displayPagination(totalNews) {
+    const paginationContainer = document.getElementById('pagination');
+
+    // Очищаем контейнер
+    paginationContainer.innerHTML = ''; 
+
+    // Результат деления числа новостей на 10 и возвращаем целое число
+    const totalPages = Math.ceil(totalNews / newsPerPage);
+
+    // Создаем кнопки для пагинации
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.classList.add('page-button');
+        if (i === currentPage) {
+            pageButton.classList.add('active');
+        }
+
+        pageButton.addEventListener('click', () => {
+
+            // Отображаем новости для выбранной страницы
+            displayNews('', i); 
+        });
+
+        paginationContainer.appendChild(pageButton);
+    }
 }
 
 // Функция для редактирования новости

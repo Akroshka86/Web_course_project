@@ -133,6 +133,23 @@ body{
     transition: transform .6s ease;
 }
 
+#my-news-button{
+    background-color: #31d2f2; /* Красный цвет для кнопки выхода */
+    color: rgb(0, 0, 0);
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 150px;
+    font-size: 14px;
+}
+
+#my-news-button:hover {
+    background-color: #26a5bf;
+    transform: scale(1.05);
+    transition: transform .6s ease;
+}
+
 
 /* К_Секция 1 */
 

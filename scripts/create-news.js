@@ -15,8 +15,8 @@ document.getElementById('news-form').addEventListener('submit', (e) => {
     if (title && content) {
         const news = JSON.parse(localStorage.getItem('news')) || [];
         
-        // Добавляем текущего пользователя как автора новости
-        news.push({ title, content, username: currentUser.username, hidden: false });
+        // Добавляем новость в начало массива
+        news.unshift({ title, content, username: currentUser.username, hidden: false });
         
         localStorage.setItem('news', JSON.stringify(news));
 
