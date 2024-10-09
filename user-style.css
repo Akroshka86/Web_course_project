@@ -13,8 +13,6 @@ body{
     min-height: 100vh;
 }
 
-
-
 .section_2{
     width: 70%;
     text-align: center;
@@ -334,9 +332,6 @@ h2{
 }
 
 
-
-
-
 #news-form div {
     margin-bottom: 15px;
 }
@@ -354,6 +349,7 @@ textarea {
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    box-sizing: border-box;
     resize: vertical;
 }
 
@@ -406,6 +402,8 @@ p{
     align-items: center;
     justify-content: space-between;
 }
+
+
 
 
 

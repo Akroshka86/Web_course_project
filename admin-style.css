@@ -277,7 +277,7 @@ h2{
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
-    background-color: #fff3cd;
+    background-color: #99d7fc;
     color: #000;
     width: 50%;
     display: flex;
@@ -302,15 +302,15 @@ h2{
     margin-top: 10px;
     margin-right: 10px;
     padding: 5px 10px;
-    background-color: #f00;
-    color: white;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     border: none;
     cursor: pointer;
     border-radius: 4px;
 }
 
 .news-item button:hover {
-    background-color: #d00;
+    background-color: rgb(201, 201, 201);
 }
 
 
@@ -354,6 +354,7 @@ textarea {
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    box-sizing: border-box;
     resize: vertical;
 }
 

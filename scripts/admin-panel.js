@@ -60,14 +60,17 @@ function displayNews(filter = '', page = 1) {
         // Формируем HTML для каждой новости, включая автора
         newsElement.innerHTML = `
             <h3>${newsItem.title}</h3>
-            <p>${newsItem.content}</p>
-            <small>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
+            <div class = 'con-author'>
+            <small class='author'>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
             <small>Отправлено: ${newsItem.createdAt}</small>
+            </div>
             ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
         `;
 
         // Если текущий пользователь автор, показываем кнопки редактирования и удаления
         if (currentUser && (currentUser.username === newsItem.username || currentUser.role === 'admin')) {
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('button-container');
             const editButton = document.createElement('button');
             editButton.textContent = 'Редактировать';
             editButton.addEventListener('click', () => {
@@ -78,8 +81,9 @@ function displayNews(filter = '', page = 1) {
             deleteButton.textContent = 'Удалить';
             deleteButton.addEventListener('click', () => deleteNews(index));
 
-            newsElement.appendChild(editButton);
-            newsElement.appendChild(deleteButton);
+            // Добавляем кнопки в контейнер
+            buttonContainer.appendChild(editButton);
+            buttonContainer.appendChild(deleteButton);
 
             // Если пользователь администратор, добавляем кнопку "Скрыть" или "Восстановить"
             if (currentUser.role === 'admin') {
@@ -93,8 +97,9 @@ function displayNews(filter = '', page = 1) {
                     }
                 });
 
-                newsElement.appendChild(hideButton);
+                buttonContainer.appendChild(hideButton);
             }
+            newsElement.appendChild(buttonContainer)
         }
 
         newsList.appendChild(newsElement);

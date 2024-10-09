@@ -62,9 +62,11 @@ function displayNews(filter = '', page = 1) {
         // Формируем HTML для каждой новости, включая автора
         newsElement.innerHTML = `
             <h3>${newsItem.title}</h3>
-            <p>${newsItem.content}</p>
-            <small>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
+            <p>${newsItem.content}</p><br>
+            <div class = 'con-author'>
+            <small class='author'>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
             <small>Отправлено: ${newsItem.createdAt}</small>
+            </div>
             ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
         `;
 
