@@ -69,7 +69,10 @@ function displayNews(filter = '', page = 1) {
         if (currentUser && (currentUser.username === newsItem.username || currentUser.role === 'admin')) {
             const editButton = document.createElement('button');
             editButton.textContent = 'Редактировать';
-            editButton.addEventListener('click', () => editNews(index));
+            editButton.addEventListener('click', () => {
+                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс
+                window.location.href = `edit-news.html?edit=${originalIndex}`;
+        });
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Удалить';
@@ -127,22 +130,6 @@ function displayPagination(totalNews) {
         });
 
         paginationContainer.appendChild(pageButton);
-    }
-}
-
-// Функция для редактирования новости
-function editNews(index) {
-    const news = JSON.parse(localStorage.getItem('news')) || [];
-    const newsItem = news[index];
-
-    const newTitle = prompt('Введите новый заголовок:', newsItem.title);
-    const newContent = prompt('Введите новый текст:', newsItem.content);
-
-    if (newTitle && newContent) {
-        news[index].title = newTitle;
-        news[index].content = newContent;
-        localStorage.setItem('news', JSON.stringify(news));
-        displayNews(); // Обновляем отображение новостей
     }
 }
 

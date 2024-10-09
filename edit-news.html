@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование новости</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="section_1">
+            <div class="header-text">Форум новостей</div>
+            <div class="navigation_text">Навигация</div>
+            <div class="navigation"> 
+                <div class="news">
+                    <img src="news_img.png" alt="" class="news_img">
+                    <a href="index.html" class="news-hesder">Новости</a>
+                </div>
+                <div id="create-news-section" class="hidden">
+                    <button id="create-news-button">Создать новость</button>
+                </div>
+            </div>            
+        </div>
+        <div class="section_3">
+            <div class="header-red">Редактирование новости</div>
+            <form id="news-form">
+                <div>
+                    <label for="news-title">Заголовок:</label>
+                    <input type="text" id="news-title" required>
+                </div>
+                <div>
+                    <label for="news-content">Контент:</label>
+                    <textarea id="news-content" required></textarea>
+                </div>
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>    
+    </div>
+
+    <script src="scripts/edit-news.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/modal.js"></script>
+    <script src="scripts/user-messages.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
+

@@ -37,6 +37,11 @@ function displayNews(filter = '', page = 1) {
         );
     }  
 
+    // Если пользователь не администратор, убираем скрытые новости из показа
+    if (!currentUser || currentUser.role !== 'admin') {
+        filteredNews = filteredNews.filter(newsItem => !newsItem.hidden);
+    }
+
     // Рассчитываем индекс начала и конца новостей для текущей страницы
     const startIndex = (page - 1) * newsPerPage;
     const endIndex = page * newsPerPage;
@@ -62,7 +67,7 @@ function displayNews(filter = '', page = 1) {
             <small>Отправлено: ${newsItem.createdAt}</small>
             ${newsItem.hidden ? '<small>(Скрыто)</small>' : ''}
         `;
-               
+
         newsList.appendChild(newsElement);
     });
 
@@ -97,42 +102,4 @@ function displayPagination(totalNews) {
 
         paginationContainer.appendChild(pageButton);
     }
-}
-
-// Функция для редактирования новости
-function editNews(index) {
-    const news = JSON.parse(localStorage.getItem('news')) || [];
-    const newsItem = news[index];
-
-    const newTitle = prompt('Введите новый заголовок:', newsItem.title);
-    const newContent = prompt('Введите новый текст:', newsItem.content);
-
-    if (newTitle && newContent) {
-        news[index].title = newTitle;
-        news[index].content = newContent;
-        localStorage.setItem('news', JSON.stringify(news));
-        displayNews(); // Обновляем отображение новостей
-    }
-}
-
-// Функция для удаления новости
-function deleteNews(index) {
-    const news = JSON.parse(localStorage.getItem('news')) || [];
-    news.splice(index, 1); // Удаляем новость по индексу
-    localStorage.setItem('news', JSON.stringify(news));
-    displayNews(); // Обновляем отображение новостей
-}
-
-function hideNews(index) {
-    const news = JSON.parse(localStorage.getItem('news')) || [];
-    news[index].hidden = true; // Устанавливаем атрибут hidden в true
-    localStorage.setItem('news', JSON.stringify(news));
-    displayNews(); // Обновляем отображение новостей
-}
-
-function restoreNews(index) {
-    const news = JSON.parse(localStorage.getItem('news')) || [];
-    news[index].hidden = false; // Устанавливаем атрибут hidden в false
-    localStorage.setItem('news', JSON.stringify(news));
-    displayNews(); // Обновляем отображение новостей
 }

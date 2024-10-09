@@ -46,6 +46,10 @@ window.onload = () => {
             window.location.href = `admin-page.html`;
         });
     }
+
+    editButton.addEventListener('click', () => {
+        window.location.href = `create-news.html?edit=${index}`;
+    });
 };
 
 
