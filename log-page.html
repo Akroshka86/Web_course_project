@@ -35,14 +35,16 @@
         <div class="section_2">
             <section id="user-actions-section">
                 <h2>Лог действий пользователей</h2>
+                <button id="save-log-button">Сохранить лог в файл</button>
+                <button id="clear-log-button">Очистить все логи</button>
                 <table>
                     <thead>
-                    <tr>
-                        <th>Логин пользователя</th>
-                        <th>Действие</th>
-                        <th>Время действия</th>
-                        <th>Дата действия</th>
-                    </tr>
+                        <tr>
+                            <th data-column="login" data-order="asc">Логин пользователя</th>
+                            <th data-column="action" data-order="asc">Действие</th>
+                            <th data-column="time" data-order="asc">Время действия</th>
+                            <th data-column="date" data-order="asc">Дата действия</th>
+                        </tr>
                     </thead>
                     <tbody id="user-actions-table">
                     <!-- Данные будут загружаться через JS -->
