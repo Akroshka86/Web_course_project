@@ -59,7 +59,8 @@ function displayNews(filter = '', page = 1) {
         
         // Формируем HTML для каждой новости, включая автора
         newsElement.innerHTML = `
-            <h3>${newsItem.title}</h3>
+            <h3>${newsItem.title}</h3>            
+            <p>${newsItem.content}</p><br>
             <div class = 'con-author'>
             <small class='author'>Автор: ${newsItem.username ? newsItem.username : 'Неизвестный'}</small>
             <small>Отправлено: ${newsItem.createdAt}</small>
@@ -143,6 +144,9 @@ function deleteNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news.splice(index, 1); // Удаляем новость по индексу
     localStorage.setItem('news', JSON.stringify(news));
+
+    logUserAction(loadSession().username, `Удалил новость`);
+
     displayNews(); // Обновляем отображение новостей
 }
 
@@ -150,6 +154,9 @@ function hideNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news[index].hidden = true; // Устанавливаем атрибут hidden в true
     localStorage.setItem('news', JSON.stringify(news));
+
+    logUserAction(loadSession().username, `Скрыл новость: "${news[index].title}"`);
+
     displayNews(); // Обновляем отображение новостей
 }
 
@@ -157,6 +164,9 @@ function restoreNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news[index].hidden = false; // Устанавливаем атрибут hidden в false
     localStorage.setItem('news', JSON.stringify(news));
+
+    logUserAction(loadSession().username, `Восстановил новость: "${news[index].title}"`);
+
     displayNews(); // Обновляем отображение новостей
 }
 
@@ -166,7 +176,11 @@ function checkAdminAccess() {
 
     // Если пользователь не залогинен или его роль не "admin", перенаправляем на главную страницу
     if (!currentUser || currentUser.role !== 'admin') {
-        alert('У вас нет доступа к этой странице.');
         window.location.href = 'index.html'; // Перенаправляем на главную страницу
     }
 }
+
+
+
+
+

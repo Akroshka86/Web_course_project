@@ -80,7 +80,10 @@ function displayNews(filter = '', page = 1) {
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Удалить';
-            deleteButton.addEventListener('click', () => deleteNews(index));
+            deleteButton.addEventListener('click', () => {
+                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс для удаления
+                deleteNews(originalIndex); // Передаём оригинальный индекс в функцию удаления
+            });
 
             buttonContainer.appendChild(editButton);
             buttonContainer.appendChild(deleteButton);
@@ -90,10 +93,12 @@ function displayNews(filter = '', page = 1) {
                 const hideButton = document.createElement('button');
                 hideButton.textContent = newsItem.hidden ? 'Восстановить' : 'Скрыть';
                 hideButton.addEventListener('click', () => {
+                    const originalIndex = news.findIndex(item => item === newsItem);
+
                     if (newsItem.hidden) {
-                        restoreNews(index); // Восстанавливаем новость
+                        restoreNews(originalIndex); // Восстанавливаем новость
                     } else {
-                        hideNews(index); // Скрываем новость
+                        hideNews(originalIndex); // Скрываем новость
                     }
                 });
 
@@ -143,6 +148,10 @@ function deleteNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news.splice(index, 1); // Удаляем новость по индексу
     localStorage.setItem('news', JSON.stringify(news));
+
+    // Логируем действие удаления новости
+    logUserAction(loadSession().username, `Удалил новость`);
+
     displayNews(); // Обновляем отображение новостей
 }
 
@@ -150,6 +159,10 @@ function hideNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news[index].hidden = true; // Устанавливаем атрибут hidden в true
     localStorage.setItem('news', JSON.stringify(news));
+
+    // Логируем действие скрытия новости
+    logUserAction(loadSession().username, `Скрыл новость: "${news[index].title}"`);
+    
     displayNews(); // Обновляем отображение новостей
 }
 
@@ -157,5 +170,9 @@ function restoreNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
     news[index].hidden = false; // Устанавливаем атрибут hidden в false
     localStorage.setItem('news', JSON.stringify(news));
+
+    // Логируем действие восстановления новости
+    logUserAction(loadSession().username, `Восстановил новость: "${news[index].title}"`);
+
     displayNews(); // Обновляем отображение новостей
 }

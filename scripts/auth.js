@@ -24,6 +24,13 @@ function saveSession(user) {
 
 // Функция для завершения сессии (выход)
 function clearSession() {
+
+    const user = loadSession();
+    // Логируем действие о выходе из аккаунта
+    if (user) {
+        logUserAction(user.username, 'Выход из аккаунта');
+    }
+
     localStorage.removeItem(LOCAL_STORAGE_SESSION_KEY);
 }
 
@@ -51,6 +58,10 @@ function register(username, password) {
     users.push({ username, password, role });
 
     saveUsers(users);
+
+    // Логируем действие о регистрации пользователя
+    logUserAction(username, 'Регистрация нового пользователя');
+
     return true;
 }
 
@@ -67,5 +78,9 @@ function login(username, password) {
     }
 
     saveSession(user);
+
+    // Логируем действие о входе в аккаунт
+    logUserAction(username, 'Вход в аккаунт');
+
     return true;
 }

@@ -20,6 +20,8 @@ document.getElementById('news-form').addEventListener('submit', (e) => {
         
         localStorage.setItem('news', JSON.stringify(news));
 
+        logUserAction(currentUser.username, 'Создал новость');
+
         // Перенаправляем на главную страницу после создания новости
         window.location.href = 'index.html';
     }

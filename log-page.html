@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форум</title>
-    <link rel="stylesheet" href="user-style.css">
+    <link rel="stylesheet" href="admin-style.css">
 </head>
 <body>
     <div class="main">
@@ -33,12 +33,21 @@
             </div>            
         </div>
         <div class="section_2">
-            <section id="news-section">
-                <h2>Новости</h2>
-                <input type="text" id="search-input" placeholder="Введите ключевое слово для поиска...">
-                <div id="news-list"></div>
-                <div id="pagination"></div>
-                </div>
+            <section id="user-actions-section">
+                <h2>Лог действий пользователей</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Логин пользователя</th>
+                        <th>Действие</th>
+                        <th>Время действия</th>
+                        <th>Дата действия</th>
+                    </tr>
+                    </thead>
+                    <tbody id="user-actions-table">
+                    <!-- Данные будут загружаться через JS -->
+                    </tbody>
+                </table>
             </section>
         </div>    
     </div>
@@ -59,14 +68,13 @@
         </div>
     </div>
 
-    
-    <script src="scripts/utils.js"></script>
+    <script src="scripts/utils.js"></script>    
     <script src="scripts/auth.js"></script>
     <script src="scripts/modal.js"></script>
-    <script src="scripts/user-messages.js"></script>
     <script src="scripts/ui.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/create-news.js"></script>
-
+    <script src="scripts/load-actions.js"></script>
+    
 </body>
 </html>

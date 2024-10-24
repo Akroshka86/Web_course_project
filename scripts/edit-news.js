@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Редактирование существующей новости в оригинальном массиве
                 allNews[newsIndex].title = title;
                 allNews[newsIndex].content = content;
+
+                logUserAction(currentUser.username, `Отредактировал новость: "${allNews[newsIndex].title}"`);
             }
 
             // Сохраняем новости в localStorage

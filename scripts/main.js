@@ -47,6 +47,13 @@ window.onload = () => {
         });
     }
 
+    const userActionsButton = document.getElementById('user-actions-btn');
+    if (userActionsButton) {
+        userActionsButton.addEventListener('click', () => {
+            window.location.href = `log-page.html`;
+        });
+    }
+
     editButton.addEventListener('click', () => {
         window.location.href = `create-news.html?edit=${index}`;
     });
@@ -63,6 +70,7 @@ function updateUI() {
         document.getElementById('my-news-section').classList.remove('hidden'); // Показываем кнопку "Мои сообщения"
         if (currentUser && currentUser.role === 'admin'){
             document.getElementById('admin-section').classList.remove('hidden');
+            document.getElementById('user-actions-section').classList.remove('hidden');
         }
     } else {
         document.getElementById('login-button').classList.remove('hidden');
