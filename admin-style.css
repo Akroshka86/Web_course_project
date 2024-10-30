@@ -364,10 +364,14 @@ label {
     margin-bottom: 5px;
 }
 
+#search-input{
+    padding: 10px;
+}
+
 input[type="text"],
 textarea {
-    width: 100%;
-    padding: 10px;
+    width: 99.5%;
+    padding: 10px 0px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -485,6 +489,27 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
     background-color: #2c2c2c; /* синий */
     color: white; /* белый цвет текста для контраста */
+}
+
+.btn-log{
+    display: flex;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+.btn-log button{
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #f00;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-log button:hover {
+    background-color: #d00;
 }
 
 

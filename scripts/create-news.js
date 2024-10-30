@@ -8,7 +8,6 @@ document.getElementById('news-form').addEventListener('submit', (e) => {
     const currentUser = loadSession(); 
 
     if (!currentUser) {
-        alert('Вы должны войти, чтобы добавить новость.');
         return;
     }
 

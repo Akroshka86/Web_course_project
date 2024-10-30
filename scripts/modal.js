@@ -22,12 +22,21 @@ function setupAuthModal() {
     });
 
     // Переключение между входом и регистрацией
+    // Переключение между входом и регистрацией
     toggleAuth.addEventListener('click', (e) => {
         e.preventDefault();
         isLoginMode = !isLoginMode;
         authTitle.textContent = isLoginMode ? 'Вход' : 'Регистрация';
         authForm.querySelector('button').textContent = isLoginMode ? 'Войти' : 'Зарегистрироваться';
-        authSwitchText.innerHTML = isLoginMode ? 'Нет аккаунта? <a href="#" id="toggle-auth">Зарегистрироваться</a>' : 'Есть аккаунт? <a href="#" id="toggle-auth">Войти</a>';
+        authSwitchText.innerHTML = isLoginMode ? 
+            'Нет аккаунта? <a href="#" id="toggle-auth">Зарегистрироваться</a>' : 
+            'Есть аккаунт? <a href="#" id="toggle-auth">Войти</a>';
+        
+        // Привязываем событие на новую ссылку после изменения innerHTML
+        document.getElementById('toggle-auth').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleAuth.click(); // Повторное переключение режима
+        });
     });
 
     // Отправка формы
@@ -38,20 +47,16 @@ function setupAuthModal() {
 
         if (isLoginMode) {
             if (login(username, password)) {
-                alert('Успешный вход!');
                 authModal.classList.add('hidden');
                 updateUI(); // Обновляем интерфейс после входа
             } else {
-                alert('Ошибка входа.');
             }
         } else {
             if (register(username, password)) {
-                alert('Регистрация успешна. Теперь войдите.');
                 isLoginMode = true;
                 authTitle.textContent = 'Вход';
                 authForm.querySelector('button').textContent = 'Войти';
             } else {
-                alert('Ошибка регистрации.');
             }
         }
     });
@@ -59,7 +64,6 @@ function setupAuthModal() {
     // Логика выхода из системы
     logoutButton.addEventListener('click', () => {
         clearSession();
-        alert('Вы вышли из системы.');
         window.location.href = 'index.html';  // Перенаправляем на главную страницу
     });
 }

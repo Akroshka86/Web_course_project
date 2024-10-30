@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const currentUser = loadSession();  // Загружаем текущего пользователя
     if (!currentUser) {
-        alert('Вы должны войти для создания или редактирования новости.');
         window.location.href = 'index.html';
         return;
     }
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             newsTitleInput.value = newsItem.title;
             newsContentInput.value = newsItem.content;
         } else {
-            alert('У вас нет прав на редактирование этой новости.');
             window.location.href = 'index.html';
             return;
         }
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = 'user-messages.html';
             }            
         } else {
-            alert('Пожалуйста, заполните все поля.');
         }
     });
 });

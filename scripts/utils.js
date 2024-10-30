@@ -9,7 +9,7 @@ function logUserAction(login, action) {
         time: new Date().toLocaleTimeString(),
         date: new Date().toLocaleDateString()
     };
-    actions.push(newAction);
+    actions.unshift(newAction);
 
     // Сохраняем обновлённый массив в LocalStorage
     localStorage.setItem('userActions', JSON.stringify(actions));

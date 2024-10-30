@@ -51,6 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
         saveLogButton.addEventListener('click', saveLogToFile); // Добавляем обработчик для сохранения файла
     }
 
+    const clearLogButton = document.getElementById('clear-log-button');
+    if (clearLogButton) {
+        clearLogButton.addEventListener('click', clearLogs); // Добавляем обработчик для очистки логов
+    }
+
 
     // Обработчики для сортировки по каждому заголовку таблицы
     const headers = document.querySelectorAll('th[data-column]');
@@ -116,6 +121,16 @@ function saveLogToFile() {
     // Удаляем элемент ссылки после скачивания
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+// Функция для очистки логов
+function clearLogs() {
+    // Удаляем логи из LocalStorage
+    localStorage.removeItem('userActions');
+
+    // Очищаем таблицу на странице
+    const tableBody = document.getElementById('user-actions-table');
+    tableBody.innerHTML = '';
 }
 
 // Проверка доступа к странице администратора

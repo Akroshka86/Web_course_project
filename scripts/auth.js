@@ -47,7 +47,6 @@ function register(username, password) {
     const userExists = users.some(user => user.username === username);
 
     if (userExists) {
-        alert('Пользователь с таким именем уже существует!');
         return false;
     }
 
@@ -73,7 +72,6 @@ function login(username, password) {
     const user = users.find(user => user.username === username && user.password === password);
 
     if (!user) {
-        alert('Неверное имя пользователя или пароль!');
         return false;
     }
 
