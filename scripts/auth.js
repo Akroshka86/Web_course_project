@@ -43,7 +43,9 @@ function isAuthenticated() {
 function register(username, password) {
     // Загрузка всех пользователей в переменную
     const users = loadUsers();
+    
     // Проверка, существует ли такой пользователь (для каждого user проверяем совпадает ли user.username с username)
+    // some - проверяет, есть ли в массиве хотя бы один элемент, который удовлетворяет заданному условию
     const userExists = users.some(user => user.username === username);
 
     if (userExists) {

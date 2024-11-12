@@ -31,7 +31,7 @@ function displayNews(filter = '', page = 1) {
     if (lowerCaseFilter.length < 3) {
         filteredNews = news;
     } else {
-        // Фильтруем новости по заголовку или содержимому
+        // Фильтруем новости по заголовку или содержимому (возвращает True или False)
         filteredNews = news.filter(newsItem =>
 
             // Берем название / содержание новости и смотрим содержится ли в ней строка lowerCaseFilter.
@@ -92,9 +92,9 @@ function displayNews(filter = '', page = 1) {
                 hideButton.textContent = newsItem.hidden ? 'Восстановить' : 'Скрыть';
                 hideButton.addEventListener('click', () => {
                     if (newsItem.hidden) {
-                        restoreNews(index); // Восстанавливаем новость
+                        restoreNews(index);
                     } else {
-                        hideNews(index); // Скрываем новость
+                        hideNews(index);
                     }
                 });
 
@@ -117,7 +117,7 @@ function displayPagination(totalNews) {
     // Очищаем контейнер
     paginationContainer.innerHTML = ''; 
 
-    // Результат деления числа новостей на 10 и возвращаем целое число
+    // Результат деления числа новостей на 10 и возвращаем целое число (53/10 = 6)
     const totalPages = Math.ceil(totalNews / newsPerPage);
 
     // Создаем кнопки для пагинации
@@ -142,41 +142,55 @@ function displayPagination(totalNews) {
 // Функция для удаления новости
 function deleteNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
-    news.splice(index, 1); // Удаляем новость по индексу
+
+    // Удаляем новость по индексу
+    news.splice(index, 1); 
+
+    // Сохраняем localStorage (ключ, значение)
     localStorage.setItem('news', JSON.stringify(news));
 
+    // Сохранение в логи
     logUserAction(loadSession().username, `Удалил новость`);
 
-    displayNews(); // Обновляем отображение новостей
+    displayNews();
 }
 
 function hideNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
-    news[index].hidden = true; // Устанавливаем атрибут hidden в true
+
+    // Устанавливаем атрибут hidden в true
+    news[index].hidden = true; 
     localStorage.setItem('news', JSON.stringify(news));
 
     logUserAction(loadSession().username, `Скрыл новость: "${news[index].title}"`);
 
-    displayNews(); // Обновляем отображение новостей
+    displayNews();
 }
 
 function restoreNews(index) {
     const news = JSON.parse(localStorage.getItem('news')) || [];
-    news[index].hidden = false; // Устанавливаем атрибут hidden в false
+
+    // Устанавливаем атрибут hidden в false
+    news[index].hidden = false; 
     localStorage.setItem('news', JSON.stringify(news));
 
     logUserAction(loadSession().username, `Восстановил новость: "${news[index].title}"`);
 
-    displayNews(); // Обновляем отображение новостей
+    displayNews();
 }
 
-// Проверка доступа к странице администратора
+
+
+
+// Функция проверки доступа к странице администратора
 function checkAdminAccess() {
     const currentUser = loadSession();
 
     // Если пользователь не залогинен или его роль не "admin", перенаправляем на главную страницу
     if (!currentUser || currentUser.role !== 'admin') {
-        window.location.href = 'index.html'; // Перенаправляем на главную страницу
+
+        // Перенаправляем на главную страницу
+        window.location.href = 'index.html'; 
     }
 }
 

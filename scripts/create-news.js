@@ -19,6 +19,7 @@ document.getElementById('news-form').addEventListener('submit', (e) => {
         
         localStorage.setItem('news', JSON.stringify(news));
 
+        // Логируем действие пользователя
         logUserAction(currentUser.username, 'Создал новость');
 
         // Перенаправляем на главную страницу после создания новости

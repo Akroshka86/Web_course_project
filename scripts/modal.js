@@ -22,7 +22,6 @@ function setupAuthModal() {
     });
 
     // Переключение между входом и регистрацией
-    // Переключение между входом и регистрацией
     toggleAuth.addEventListener('click', (e) => {
         e.preventDefault();
         isLoginMode = !isLoginMode;
@@ -32,10 +31,10 @@ function setupAuthModal() {
             'Нет аккаунта? <a href="#" id="toggle-auth">Зарегистрироваться</a>' : 
             'Есть аккаунт? <a href="#" id="toggle-auth">Войти</a>';
         
-        // Привязываем событие на новую ссылку после изменения innerHTML
+        
         document.getElementById('toggle-auth').addEventListener('click', (e) => {
             e.preventDefault();
-            toggleAuth.click(); // Повторное переключение режима
+            toggleAuth.click();
         });
     });
 
@@ -48,7 +47,9 @@ function setupAuthModal() {
         if (isLoginMode) {
             if (login(username, password)) {
                 authModal.classList.add('hidden');
-                updateUI(); // Обновляем интерфейс после входа
+
+                // Обновляем интерфейс после входа
+                updateUI(); 
             } else {
             }
         } else {
@@ -64,6 +65,6 @@ function setupAuthModal() {
     // Логика выхода из системы
     logoutButton.addEventListener('click', () => {
         clearSession();
-        window.location.href = 'index.html';  // Перенаправляем на главную страницу
+        window.location.href = 'index.html';
     });
 }
