@@ -88,22 +88,7 @@ function displayNews(filter = '', page = 1) {
             buttonContainer.appendChild(editButton);
             buttonContainer.appendChild(deleteButton);
 
-            // Если пользователь администратор, добавляем кнопку "Скрыть" или "Восстановить"
-            if (currentUser.role === 'admin') {
-                const hideButton = document.createElement('button');
-                hideButton.textContent = newsItem.hidden ? 'Восстановить' : 'Скрыть';
-                hideButton.addEventListener('click', () => {
-                    const originalIndex = news.findIndex(item => item === newsItem);
-
-                    if (newsItem.hidden) {
-                        restoreNews(originalIndex); // Восстанавливаем новость
-                    } else {
-                        hideNews(originalIndex); // Скрываем новость
-                    }
-                });
-
-                buttonContainer.appendChild(hideButton);
-            }
+            
             newsElement.appendChild(buttonContainer);
         }
 

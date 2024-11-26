@@ -22,23 +22,6 @@ function setupAuthModal() {
         window.location.href = 'index.html';
     });
 
-    // Переключение между входом и регистрацией
-    toggleAuth.addEventListener('click', (e) => {
-        e.preventDefault();
-        isLoginMode = !isLoginMode;
-        authTitle.textContent = isLoginMode ? 'Вход' : 'Регистрация';
-        authForm.querySelector('button').textContent = isLoginMode ? 'Войти' : 'Зарегистрироваться';
-        authSwitchText.innerHTML = isLoginMode ? 
-            'Нет аккаунта? <a href="#" id="toggle-auth">Зарегистрироваться</a>' : 
-            'Есть аккаунт? <a href="#" id="toggle-auth">Войти</a>';
-        
-        
-        document.getElementById('toggle-auth').addEventListener('click', (e) => {
-            e.preventDefault();
-            toggleAuth.click();
-        });
-    });
-
     // Отправка формы
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();

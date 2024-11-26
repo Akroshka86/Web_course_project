@@ -75,12 +75,16 @@ function displayNews(filter = '', page = 1) {
             const editButton = document.createElement('button');
             editButton.textContent = 'Редактировать';
             editButton.addEventListener('click', () => {
-                window.location.href = `edit-news.html?edit=${index}`;
+                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс
+                window.location.href = `edit-news.html?edit=${originalIndex}`;
             });
 
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Удалить';
-            deleteButton.addEventListener('click', () => deleteNews(index));
+            deleteButton.addEventListener('click', () => {
+                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс для удаления
+                deleteNews(originalIndex); // Передаём оригинальный индекс в функцию удаления
+            });
 
             // Добавляем кнопки в контейнер
             buttonContainer.appendChild(editButton);
@@ -89,12 +93,13 @@ function displayNews(filter = '', page = 1) {
             // Если пользователь администратор, добавляем кнопку "Скрыть" или "Восстановить"
             if (currentUser.role === 'admin') {
                 const hideButton = document.createElement('button');
+                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс для удаления
                 hideButton.textContent = newsItem.hidden ? 'Восстановить' : 'Скрыть';
                 hideButton.addEventListener('click', () => {
                     if (newsItem.hidden) {
-                        restoreNews(index);
+                        restoreNews(originalIndex);
                     } else {
-                        hideNews(index);
+                        hideNews(originalIndex);
                     }
                 });
 
@@ -151,8 +156,10 @@ function deleteNews(index) {
 
     // Сохранение в логи
     logUserAction(loadSession().username, `Удалил новость`);
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput ? searchInput.value : '';
 
-    displayNews();
+    displayNews(searchTerm);
 }
 
 function hideNews(index) {
@@ -163,8 +170,10 @@ function hideNews(index) {
     localStorage.setItem('news', JSON.stringify(news));
 
     logUserAction(loadSession().username, `Скрыл новость: "${news[index].title}"`);
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput ? searchInput.value : '';
 
-    displayNews();
+    displayNews(searchTerm);
 }
 
 function restoreNews(index) {
@@ -175,8 +184,10 @@ function restoreNews(index) {
     localStorage.setItem('news', JSON.stringify(news));
 
     logUserAction(loadSession().username, `Восстановил новость: "${news[index].title}"`);
+    const searchInput = document.getElementById('search-input');
+    const searchTerm = searchInput ? searchInput.value : '';
 
-    displayNews();
+    displayNews(searchTerm);
 }
 
 
@@ -185,12 +196,35 @@ function restoreNews(index) {
 // Функция проверки доступа к странице администратора
 function checkAdminAccess() {
     const currentUser = loadSession();
+    const authModal = document.getElementById('auth-modal');
+    const sectionContent = document.querySelector('.main');
 
-    // Если пользователь не залогинен или его роль не "admin", перенаправляем на главную страницу
+    // Если пользователь не залогинен или его роль не "admin", показываем модальное окно
     if (!currentUser || currentUser.role !== 'admin') {
+        sectionContent.classList.add('hidden'); // Скрываем контент страницы
 
-        // Перенаправляем на главную страницу
-        window.location.href = 'index.html'; 
+        // Показ модального окна
+        authModal.classList.remove('hidden');
+        document.getElementById('auth-title').textContent = 'Вход для администратора';
+
+        // Обработка попытки входа в модальном окне
+        const authForm = document.getElementById('auth-form');
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Если вход успешен и роль администратора
+            if (login(username, password) && loadSession().role === 'admin') {
+                authModal.classList.add('hidden');
+                sectionContent.classList.remove('hidden'); // Показываем содержимое страницы
+            } else {
+                window.location.href = 'index.html'; 
+            }
+        });
+    } else {
+        // Если пользователь уже авторизован и администратор, показываем содержимое
+        sectionContent.classList.remove('hidden');
     }
 }
 

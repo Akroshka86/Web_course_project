@@ -353,8 +353,8 @@ label {
 
 input[type="text"],
 textarea {
-    width: 99.5%;
-    padding: 10px 0px;
+    width: 100%;
+    padding: 10px 10px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -364,12 +364,12 @@ textarea {
 button[type="submit"] {
     background-color: #007bff;
     color: white;
-    padding: 10px 15px;
+    padding: 10px 10px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 100%;
+    width: 622px;
 }
 
 button[type="submit"]:hover {
