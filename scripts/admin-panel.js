@@ -1,3 +1,5 @@
+// Скрипт для панели администратора
+
 // Вызываем проверку при загрузке страницы администратора
 checkAdminAccess();
 
@@ -50,6 +52,7 @@ function displayNews(filter = '', page = 1) {
     // Проходим по отфильтрованным новостям и отображаем их
     paginatedNews.forEach((newsItem, index) => {
 
+        // Если новость скрыта, то не показываем
         if (newsItem.hidden && (!currentUser || currentUser.role !== 'admin')) {
             return;
         }
@@ -75,7 +78,7 @@ function displayNews(filter = '', page = 1) {
             const editButton = document.createElement('button');
             editButton.textContent = 'Редактировать';
             editButton.addEventListener('click', () => {
-                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс
+                const originalIndex = news.findIndex(item => item === newsItem); // Получаем оригинальный индекс (обращаясь к первому массиву новостей)
                 window.location.href = `edit-news.html?edit=${originalIndex}`;
             });
 
@@ -122,25 +125,63 @@ function displayPagination(totalNews) {
     // Очищаем контейнер
     paginationContainer.innerHTML = ''; 
 
-    // Результат деления числа новостей на 10 и возвращаем целое число (53/10 = 6)
+    // Общее количество страниц
     const totalPages = Math.ceil(totalNews / newsPerPage);
 
-    // Создаем кнопки для пагинации
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.classList.add('page-button');
-        if (i === currentPage) {
-            pageButton.classList.add('active');
+    // Функция для создания кнопки
+    const createButton = (text, page) => {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.classList.add('page-button');
+        if (page === currentPage) {
+            button.classList.add('active');
         }
-
-        pageButton.addEventListener('click', () => {
-
-            // Отображаем новости для выбранной страницы
-            displayNews('', i); 
+        button.addEventListener('click', () => {
+            currentPage = page;
+            displayNews('', currentPage);
+            displayPagination(totalNews);
         });
+        return button;
+    };
 
-        paginationContainer.appendChild(pageButton);
+    // Добавляем кнопку "1"
+    paginationContainer.appendChild(createButton(1, 1));
+
+    // Далее добавляем многоточие (1 ...)
+    // Если текущая страница больше 3, добавляем многоточие
+    if (currentPage > 3) {
+        const dots = document.createElement('span');
+        dots.textContent = '...';
+        dots.classList.add('dots');
+        paginationContainer.appendChild(dots);
+    }
+
+    // Добавляем текщую страницу и страницы вокруг (1 ... 2 3 4)
+    // Диапазон кнопок вокруг текущей страницы
+    // Выбирает от максимально от 2 до текущей  - 1
+    const startPage = Math.max(2, currentPage - 1);
+
+    // Выбирает от Минимальное от всех - 1 до текущей  + 1
+    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+    // Добавляем кнопки вокруг текущей страницы
+    for (let i = startPage; i <= endPage; i++) {
+        paginationContainer.appendChild(createButton(i, i));
+    }
+
+
+    // Добавляем многоточние (1 ... 2 3 4 ...)
+    // Если текущая страница меньше totalPages - 2, добавляем многоточие
+    if (currentPage < totalPages - 2) {
+        const dots = document.createElement('span');
+        dots.textContent = '...';
+        dots.classList.add('dots');
+        paginationContainer.appendChild(dots);
+    }
+
+    // Добавляем последнюю кнопку, если страниц больше 1 (1 ... 2 3 4 ... 10)
+    if (totalPages > 1) {
+        paginationContainer.appendChild(createButton(totalPages, totalPages));
     }
 }
 
@@ -156,6 +197,8 @@ function deleteNews(index) {
 
     // Сохранение в логи
     logUserAction(loadSession().username, `Удалил новость`);
+
+    // Получение значения из поиска, чтобы при удалении не сбросился поиск
     const searchInput = document.getElementById('search-input');
     const searchTerm = searchInput ? searchInput.value : '';
 
@@ -170,6 +213,8 @@ function hideNews(index) {
     localStorage.setItem('news', JSON.stringify(news));
 
     logUserAction(loadSession().username, `Скрыл новость: "${news[index].title}"`);
+
+    // Получение значения из поиска, чтобы при скрытии/восстановлении не сбросился поиск
     const searchInput = document.getElementById('search-input');
     const searchTerm = searchInput ? searchInput.value : '';
 
@@ -218,6 +263,7 @@ function checkAdminAccess() {
             if (login(username, password) && loadSession().role === 'admin') {
                 authModal.classList.add('hidden');
                 sectionContent.classList.remove('hidden'); // Показываем содержимое страницы
+                updateUI();
             } else {
                 window.location.href = 'index.html'; 
             }

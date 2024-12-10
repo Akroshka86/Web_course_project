@@ -1,4 +1,6 @@
-// Создаем ключи для хранения данных
+// Скрипт для авторизации
+
+// Кключи для хранения данных
 const LOCAL_STORAGE_USERS_KEY = 'forumUsers';
 const LOCAL_STORAGE_SESSION_KEY = 'forumSession';
 

@@ -1,3 +1,5 @@
+// Скрипт для логирования
+
 checkAdminAccess();
 
 // Массив для хранения исходных данных
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // Обработчики для сортировки по каждому заголовку таблицы
+    // Обработчики для сортировки по каждому заголовку таблицы (querySelectorAll - возвращает все найденные элементы)
     const headers = document.querySelectorAll('th[data-column]');
 
     headers.forEach(header => {
@@ -92,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Сортируем данные
             sortTableByColumn(column, newOrder);
 
-            // Устанавливаем новый порядок в атрибуте заголовка
+            // Устанавливаем атрибут data-orde в новое значение
             header.setAttribute('data-order', newOrder);
         });
     });

@@ -1,4 +1,6 @@
 // Логика управления модальным окном для входа и регистрации
+
+
 function setupAuthModal() {
     const loginButton = document.getElementById('login-button');
     const logoutButton = document.getElementById('logout-button');

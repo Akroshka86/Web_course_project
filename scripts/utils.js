@@ -1,3 +1,5 @@
+// Логирование пользователей
+
 function logUserAction(login, action) {
     // Получаем текущие логи из LocalStorage
     let actions = JSON.parse(localStorage.getItem('userActions')) || [];

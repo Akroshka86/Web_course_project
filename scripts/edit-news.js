@@ -1,3 +1,6 @@
+// Скрипт для редактирования новости
+
+// Загружается когда загружен DOM
 document.addEventListener('DOMContentLoaded', () => {
     const newsTitleInput = document.getElementById('news-title');
     const newsContentInput = document.getElementById('news-content');

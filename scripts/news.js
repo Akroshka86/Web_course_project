@@ -51,7 +51,6 @@ function displayNews(filter = '', page = 1) {
 
     // Проходим по отфильтрованным новостям и отображаем их
     paginatedNews.forEach((newsItem, index) => {
-
         if (newsItem.hidden && (!currentUser || currentUser.role !== 'admin')) {
             return;
         }
@@ -84,24 +83,55 @@ function displayPagination(totalNews) {
     // Очищаем контейнер
     paginationContainer.innerHTML = ''; 
 
-    // Результат деления числа новостей на 10 и возвращаем целое число
+    // Общее количество страниц
     const totalPages = Math.ceil(totalNews / newsPerPage);
 
-    // Создаем кнопки для пагинации
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.classList.add('page-button');
-        if (i === currentPage) {
-            pageButton.classList.add('active');
+    // Функция для создания кнопки
+    const createButton = (text, page) => {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.classList.add('page-button');
+        if (page === currentPage) {
+            button.classList.add('active');
         }
-
-        pageButton.addEventListener('click', () => {
-
-            // Отображаем новости для выбранной страницы
-            displayNews('', i); 
+        button.addEventListener('click', () => {
+            currentPage = page;
+            displayNews('', currentPage);
+            displayPagination(totalNews);
         });
+        return button;
+    };
 
-        paginationContainer.appendChild(pageButton);
+    // Добавляем кнопку "1"
+    paginationContainer.appendChild(createButton(1, 1));
+
+    // Если текущая страница больше 3, добавляем многоточие
+    if (currentPage > 3) {
+        const dots = document.createElement('span');
+        dots.textContent = '...';
+        dots.classList.add('dots');
+        paginationContainer.appendChild(dots);
+    }
+
+    // Диапазон кнопок вокруг текущей страницы
+    const startPage = Math.max(2, currentPage - 1);
+    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+    // Добавляем кнопки вокруг текущей страницы
+    for (let i = startPage; i <= endPage; i++) {
+        paginationContainer.appendChild(createButton(i, i));
+    }
+
+    // Если текущая страница меньше totalPages - 2, добавляем многоточие
+    if (currentPage < totalPages - 2) {
+        const dots = document.createElement('span');
+        dots.textContent = '...';
+        dots.classList.add('dots');
+        paginationContainer.appendChild(dots);
+    }
+
+    // Добавляем последнюю кнопку, если страниц больше 1
+    if (totalPages > 1) {
+        paginationContainer.appendChild(createButton(totalPages, totalPages));
     }
 }

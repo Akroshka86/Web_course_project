@@ -17,6 +17,7 @@ document.getElementById('news-form').addEventListener('submit', (e) => {
         // Добавляем новость в начало массива
         news.unshift({ title, content, username: currentUser.username, hidden: false, createdAt: new Date().toLocaleString()});
         
+        // Загружаем в БД обновленный список
         localStorage.setItem('news', JSON.stringify(news));
 
         // Логируем действие пользователя
